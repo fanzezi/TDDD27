@@ -9,3 +9,5 @@ The techichal specificaiton that will be used in this project is:
 - Express js
 - React 
 - Node js
+
+Midterm screencast: [Click here](https://www.youtube.com/watch?v=k2delCGrNzU)
