@@ -12,7 +12,7 @@ const MapController = () => {
 
     return(
         <Fragment>
-            <Map center = {position} zoom = {2} style={{height : '400px'}}>
+            <Map center = {position} zoom = {2} style={{height : '500px'}}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"

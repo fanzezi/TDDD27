@@ -21,16 +21,20 @@ const InputBlogPost = () => {
 
     return (
         <Fragment>
-          <h1 className="text-center mt-5">Blogposts</h1>
-          <form className="d-flex mt-5" onSubmit={onSubmitForm}>
-            <input
+          <h1 className="text-center mt-5">Write a new blogpost</h1>
+          <div style={{width: "100%", display: 'flex', justifyContent:'center'}}>
+          <form className="text-center mt-5" onSubmit={onSubmitForm}>
+            <textarea
+              style={{width: "600px", height: "400px"}}
               type="text"
               className="form-control"
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
-            <button className="btn btn-success">Add</button>
+            <button className="btn btn-secondary btn-lg btn-block mt-5">Submit post</button>
           </form>
+          </div>
+         
         </Fragment>
       );
 };
