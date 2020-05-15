@@ -1,6 +1,8 @@
 import React, {Fragment} from "react";
-import {BrowserRouter, NavLink, Switch, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, NavLink, Switch, Route, Redirect} from "react-router-dom";
 import {Navbar, Nav} from "react-bootstrap";
+import {connect} from "react-redux";
+import {logIn} from "./actions/authAction";
 import Dropdown from 'react-bootstrap/Dropdown'
 
 import "./App.css";
@@ -9,16 +11,27 @@ import "./App.css";
 import InputBlogPost from "./components/InputBlogPost";
 import ListBlogposts from "./components/ListBlogposts";
 import MapController from "./components/MapController";
+import Inside from "./components/Inside";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 
+function App(props) {
 
-function App() {
+  const {isLoggedIn} = props.isLogged;
   return (
     <div>  
     <BrowserRouter>
     <Navigation/>
+    <Navbar className="bg-light justify-content-end">
+      <Login />
+    </Navbar>
         <Switch>
-          <Route exact path = '/' component={Home}></Route>
+          <Route exact path = '/' component={startPage}></Route>
+          <PrivateRoute isLoggedIn={isLoggedIn} path ="/protected">
+            <Inside />
+          </PrivateRoute>
+          <Route exact path = '/home' component={Home}></Route>
           <Route exact path="/about" component={About}></Route>
           <Route exact path="/newPost" component={NewPost}></Route>
         </Switch>
@@ -26,6 +39,45 @@ function App() {
     </div>  
   );
 }
+
+const startPage = () =>(
+
+  <div className ="container">
+    <p>
+      Welcome to <b>TravelBlog</b> the place where you can tell your
+      friends and family all about your travel journeys and make them
+      jealous! <br />
+      <br />
+      Dont have an account? Sign up below!
+    </p>
+    <Signup />
+  </div>
+);
+
+function PrivateRoute({isLoggedIn, children, ...rest}){
+  return(
+    <Route
+    {...rest}
+    render={({ location }) =>
+      isLoggedIn ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: location }
+          }}
+        />
+       )
+      }
+    />
+  );
+}
+
+const mapStateToProps = state => ({
+  isLogged: state.isLogged
+});
+
 
 const Home = () => (
   <Fragment>
@@ -61,14 +113,12 @@ const Navigation = () => (
       <Dropdown style = {{color: "White"}}>
         <Dropdown.Toggle variant="dark" size="sm" id = "dropdown-basic"></Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item><NavLink to='/'>Home</NavLink></Dropdown.Item>
+            <Dropdown.Item><NavLink to='/home'>Home</NavLink></Dropdown.Item>
             <Dropdown.Item><NavLink to='/about'>About user</NavLink></Dropdown.Item>
           </Dropdown.Menu>        
         Meny</Dropdown>
     </Nav>
   </Navbar>
-    
-  
 );
 
-export default App;
+export default connect(mapStateToProps, {logIn})(App);
