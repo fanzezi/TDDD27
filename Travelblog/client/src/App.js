@@ -18,22 +18,22 @@ import Signup from "./components/Signup";
 
 function App(props) {
 
+
   const {isLoggedIn} = props.isLogged;
+  console.log(isLoggedIn)
+  
   return (
     <div>  
     <BrowserRouter>
     <Navigation/>
     <Navbar className="bg-light justify-content-end">
-      <Login />
+      
     </Navbar>
         <Switch>
-          <Route exact path = '/' component={startPage}></Route>
-          <PrivateRoute isLoggedIn={isLoggedIn} path ="/protected">
-            <Inside />
-          </PrivateRoute>
-          <Route exact path = '/home' component={Home}></Route>
-          <Route exact path="/about" component={About}></Route>
-          <Route exact path="/newPost" component={NewPost}></Route>
+          <Route exact path = '/' component={startPage}></Route>     
+          <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> 
+          <PrivateRoute path = '/newPost' isLoggedIn={isLoggedIn} children = {NewPost}></PrivateRoute>    
+          <PrivateRoute path = '/about' isLoggedIn={isLoggedIn} children = {About}></PrivateRoute>    
         </Switch>
     </BrowserRouter>
     </div>  
@@ -47,6 +47,7 @@ const startPage = () =>(
       Welcome to <b>TravelBlog</b> the place where you can tell your
       friends and family all about your travel journeys and make them
       jealous! <br />
+      <Login />
       <br />
       Dont have an account? Sign up below!
     </p>
@@ -55,9 +56,10 @@ const startPage = () =>(
 );
 
 function PrivateRoute({isLoggedIn, children, ...rest}){
+  console.log(children);
   return(
     <Route
-    {...rest}
+    {...rest} 
     render={({ location }) =>
       isLoggedIn ? (
         children

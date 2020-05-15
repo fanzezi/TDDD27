@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Button, FormControl, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import "./Login.css";
 import { logIn } from "../actions/authAction";
@@ -39,11 +39,11 @@ function Login(props) {
 
   //Access state from isLogged reducer
   const { isLoggedIn } = props.isLogged;
+  console.log(isLoggedIn);
   return (
+    <Fragment>
     <div className="Login">
       {isLoggedIn ? <p>You are in logged in state</p> : null}
-
-      <Link to="protected">Go PROT</Link>
       <Form inline onSubmit={loginSubmit}>
         <FormControl
           autoFocus
@@ -67,6 +67,7 @@ function Login(props) {
         </Button>
       </Form>
     </div>
+    </Fragment>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Signup.css";
 
@@ -29,13 +29,16 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-      //window.location = "/";
+      window.location = "/";
+      console.log("bajs");
+      console.log(response);
     } catch (err) {
       console.error(err.message);
     }
   };
 
   return (
+    <Fragment>
     <div className="SignUp">
       <form onSubmit={signupSubmit} className="bg-light">
         <FormGroup controlId="firstName">
@@ -94,5 +97,6 @@ export default function Login() {
         </Button>
       </form>
     </div>
+    </Fragment>
   );
 }
