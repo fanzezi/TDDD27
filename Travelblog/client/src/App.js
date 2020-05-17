@@ -19,7 +19,7 @@ import Signup from "./components/Signup";
 function App(props) {
 
 
-  const {isLoggedIn} = props.isLogged;
+  const isLoggedIn = true;
   console.log(isLoggedIn)
   
   return (
@@ -31,7 +31,7 @@ function App(props) {
     </Navbar>
         <Switch>
           <Route exact path = '/' component={startPage}></Route>     
-          <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> 
+          <Route exact path = '/home' component={Home}></Route>
           <PrivateRoute path = '/newPost' isLoggedIn={isLoggedIn} children = {NewPost}></PrivateRoute>    
           <PrivateRoute path = '/about' isLoggedIn={isLoggedIn} children = {About}></PrivateRoute>    
         </Switch>
@@ -39,6 +39,8 @@ function App(props) {
     </div>  
   );
 }
+
+/* <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> */
 
 const startPage = () =>(
 
@@ -55,14 +57,15 @@ const startPage = () =>(
   </div>
 );
 
-function PrivateRoute({isLoggedIn, children, ...rest}){
-  console.log(children);
+function PrivateRoute({isLoggedIn, component: children, ...rest}){
+  console.log("test");
+  console.log(isLoggedIn);
   return(
     <Route
     {...rest} 
     render={({ location }) =>
       isLoggedIn ? (
-        children
+       <children {...location} />
       ) : (
         <Redirect
           to={{
