@@ -1,9 +1,11 @@
 import React, { useState, Fragment } from "react";
 import { Button, FormControl, Form } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { connect } from "react-redux";
 import "./Login.css";
-import { logIn } from "../actions/authAction";
+import { logIn} from "../actions/authAction";
+
+
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -39,10 +41,15 @@ function Login(props) {
 
   //Access state from isLogged reducer
   const { isLoggedIn } = props.isLogged;
-  console.log(isLoggedIn);
+
+  const history = useHistory();
+
+  if(isLoggedIn){
+    history.push("/home");
+  }
+
   return (
     <Fragment>
-    <div className="Login">
       {isLoggedIn ? <p>You are in logged in state</p> : null}
       <Form inline onSubmit={loginSubmit}>
         <FormControl
@@ -62,11 +69,10 @@ function Login(props) {
           type="password"
         />
 
-        <Button disabled={!validateForm()} type="submit">
+        <button disabled={!validateForm()} type="submit">
           Login
-        </Button>
+        </button>
       </Form>
-    </div>
     </Fragment>
   );
 }

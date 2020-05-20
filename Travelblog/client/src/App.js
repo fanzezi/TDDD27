@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import {BrowserRouter, NavLink, Switch, Route, Redirect} from "react-router-dom";
 import {Navbar, Nav} from "react-bootstrap";
 import {connect} from "react-redux";
-import {logIn} from "./actions/authAction";
+import {logIn, logOut} from "./actions/authAction";
 import Dropdown from 'react-bootstrap/Dropdown'
 
 import "./App.css";
@@ -13,27 +13,26 @@ import ListBlogposts from "./components/ListBlogposts";
 import MapController from "./components/MapController";
 import Inside from "./components/Inside";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Signup from "./components/Signup";
 
 
 function App(props) {
 
 
-  const isLoggedIn = true;
-  console.log(isLoggedIn)
-  
+ const {isLoggedIn} = props.isLogged;
+
   return (
     <div>  
     <BrowserRouter>
     <Navigation/>
-    <Navbar className="bg-light justify-content-end">
-      
+    <Navbar className="bg-light justify-content-end">  
     </Navbar>
         <Switch>
-          <Route exact path = '/' component={startPage}></Route>     
-          <Route exact path = '/home' component={Home}></Route>
-          <PrivateRoute path = '/newPost' isLoggedIn={isLoggedIn} children = {NewPost}></PrivateRoute>    
-          <PrivateRoute path = '/about' isLoggedIn={isLoggedIn} children = {About}></PrivateRoute>    
+          <Route exact path = '/' children={startPage}></Route>     
+          <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} component={Home}></PrivateRoute>
+          <PrivateRoute path = '/about' isLoggedIn={isLoggedIn} component={About}></PrivateRoute>
+          <PrivateRoute path = '/newPost'isLoggedIn={isLoggedIn} component={NewPost}></PrivateRoute>
         </Switch>
     </BrowserRouter>
     </div>  
@@ -43,29 +42,26 @@ function App(props) {
 /* <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> */
 
 const startPage = () =>(
-
   <div className ="container">
     <p>
       Welcome to <b>TravelBlog</b> the place where you can tell your
       friends and family all about your travel journeys and make them
-      jealous! <br />
-      <Login />
+      jealous! <br />    
       <br />
       Dont have an account? Sign up below!
     </p>
+    <Login />
     <Signup />
   </div>
 );
 
-function PrivateRoute({isLoggedIn, component: children, ...rest}){
-  console.log("test");
-  console.log(isLoggedIn);
+function PrivateRoute({isLoggedIn, component: Component, ...rest}){
   return(
     <Route
     {...rest} 
-    render={({ location }) =>
+    render={ ({ location }) =>
       isLoggedIn ? (
-       <children {...location} />
+      <Component {...location}/>
       ) : (
         <Redirect
           to={{
@@ -84,19 +80,26 @@ const mapStateToProps = state => ({
 });
 
 
+
+
 const Home = () => (
-  <Fragment>
-  <h1 className="text-center mt-5">Usernames Travelblog</h1>
-  <div className="container">
-    <MapController/>
-    <NavLink to='/newPost'> 
-      <button type="button" className="btn btn-secondary btn-lg btn-block mt-5">
-        <span>Write new blogpost</span>
-      </button></NavLink>
-    <ListBlogposts/>
-  </div>
-  </Fragment>
-);
+
+    <Fragment>
+    <h1 className="text-center mt-5">Usernames Travelblog</h1>
+    <Logout/>
+    <div className="container">
+      <MapController/>
+      <NavLink to='/newPost'> 
+        <button type="button" className="btn btn-secondary btn-lg btn-block mt-5">
+          <span>Write new blogpost</span>
+        </button></NavLink>
+      <ListBlogposts/>
+    </div>
+    </Fragment>
+  );
+
+
+
 
 const About = () => (
   <div className='about'>
@@ -126,4 +129,4 @@ const Navigation = () => (
   </Navbar>
 );
 
-export default connect(mapStateToProps, {logIn})(App);
+export default connect(mapStateToProps, {logIn, logOut})(App);

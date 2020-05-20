@@ -9,13 +9,12 @@ const initialState = {
       case "SIGN_IN":
         return {
           ...state, //För att bevara vissa delar i state men ändra andra delar (ex isLogged: true)
-          isLoggedIn: true //Keep the state but modify the selected state (LoggedIn)
-          //token: action.payload
+          isLoggedIn: true, //Keep the state but modify the selected state (LoggedIn)
         };
       case "SIGN_OUT":
         return {
           ...state,
-          isLoggedIn: false
+          isLoggedIn: false,
         };
       default:
         return state;
