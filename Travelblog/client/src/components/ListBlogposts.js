@@ -20,8 +20,6 @@ const ListBlogPosts = () => {
     getBlogPosts();
   }, []);
 
-  console.log(blogposts);
-
   return (
     <Fragment>
       {" "}

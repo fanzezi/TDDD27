@@ -108,7 +108,6 @@ app.post("/signup", async (req, res) => {
       console.error(err.message);
     }
   });
-    
 
 //get all blogposts
 app.get("/blogposts", async(req, res) => {
@@ -124,6 +123,7 @@ app.get("/blogposts", async(req, res) => {
     }
 
 });
+
 
 //get a blogpost
 app.get("/blogposts/:id", async(req, res) => {

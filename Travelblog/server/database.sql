@@ -20,3 +20,4 @@ CREATE TABLE loggedInUsers(
   token VARCHAR(30),
   PRIMARY KEY(email)
 );
+
