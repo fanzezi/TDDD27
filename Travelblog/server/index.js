@@ -83,9 +83,9 @@ app.post("/login", async (req, res) => {
         //create and assign token
         const token = jwt.sign({ loginUser }, "secretKey");
 
-        res.header("auth-token", token).send(token);
+        //res.header("auth-token", token).send(token);
 
-        //res.json(loginUser.rows);
+        res.json({ token, loginUser });
       } else {
         console.log("Invalid passwod");
       }
@@ -128,9 +128,7 @@ app.get("/test", verifyToken, (req, res) => {
 
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
-  console.log("hej2");
   try {
-    console.log("hej");
     const { description } = req.body;
     const newBlogPost = await pool.query(
       "INSERT INTO blogpost (description) VALUES($1) RETURNING *",

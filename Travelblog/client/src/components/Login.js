@@ -17,23 +17,23 @@ function Login(props) {
   }
 
   // On submit send request
-  const loginSubmit = async e => {
+  const loginSubmit = e => {
     // if the event does not get explicitly handled, its default action should not be taken as it normally would be.
     e.preventDefault();
     // Validate if email and password is working
 
-    try {
-      const body = {
-        email: email,
-        password: password
-      };
+    const body = {
+      email: email,
+      password: password
+    };
 
-      const response = await fetch("http://localhost:5000/login", {
+    try {
+      /*const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
-      });
-      props.logIn();
+      }); */
+      props.logIn(body);
     } catch (err) {
       console.error(err.message);
     }

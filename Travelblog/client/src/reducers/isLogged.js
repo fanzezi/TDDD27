@@ -1,17 +1,21 @@
 // set state if user logged in
 const initialState = {
   isLoggedIn: false,
-  token: null
+  token: localStorage.getItem("token"),
+  loginUser: null
 };
 
 const loggedReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SIGN_IN":
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state, //För att bevara vissa delar i state men ändra andra delar (ex isLogged: true)
+        ...action.payload,
         isLoggedIn: true //Keep the state but modify the selected state (LoggedIn)
       };
     case "SIGN_OUT":
+      localStorage.removeItem("token");
       return {
         ...state,
         isLoggedIn: false
