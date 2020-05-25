@@ -1,10 +1,9 @@
 import React, { useState, Fragment } from "react";
 import { Button, FormControl, Form } from "react-bootstrap";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import "./Login.css";
-import { logIn} from "../actions/authAction";
-
+import { logIn } from "../actions/authAction";
 
 var getCurrentUser = null;
 
@@ -17,7 +16,6 @@ function Login(props) {
     return email.length > 2 && password.length > 2;
   }
 
- 
   // On submit send request
   const loginSubmit = async e => {
     // if the event does not get explicitly handled, its default action should not be taken as it normally would be.
@@ -46,7 +44,7 @@ function Login(props) {
 
   const history = useHistory();
 
-  if(isLoggedIn){
+  if (isLoggedIn) {
     history.push("/home");
   }
 
@@ -84,5 +82,4 @@ const mapStateToProps = state => ({
   isLogged: state.isLogged
 });
 
-
-export default connect(mapStateToProps, { logIn, getCurrentUser})(Login);
+export default connect(mapStateToProps, { logIn, getCurrentUser })(Login);
