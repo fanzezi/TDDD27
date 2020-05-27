@@ -1,7 +1,10 @@
 import React, {Fragment, useState} from "react";
+import testimage from "./testis.png";
 
 const InputBlogPost = () => {
     const [description, setDescription] = useState("");
+
+    //File testfile = new File(testimage);
   
     const onSubmitForm = async e => {
       e.preventDefault();

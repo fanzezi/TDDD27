@@ -3,8 +3,11 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
+//const IncomingForm = require("formidable").IncomingForm;
 
-// JSON WEB TOKEN HERE
+
+// JSON WEB TOKEN HER
+
 
 //ROUTES//
 app.use(cors());
@@ -128,10 +131,9 @@ app.get("/test", verifyToken, (req, res) => {
 
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
-  console.log("hej2");
   try {
-    console.log("hej");
     const { description } = req.body;
+
     const newBlogPost = await pool.query(
       "INSERT INTO blogpost (description) VALUES($1) RETURNING *",
       [description]
@@ -144,7 +146,7 @@ app.post("/blogposts", async (req, res) => {
 });
 
 //get all blogposts
-app.get("/blogposts", verifyToken, async (req, res) => {
+app.get("/blogposts", async (req, res) => {
   try {
     const allBlogPosts = await pool.query("SELECT * FROM blogpost");
     res.json(allBlogPosts.rows);
