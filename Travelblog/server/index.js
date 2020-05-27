@@ -3,15 +3,27 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
+const cloudinary = require('cloudinary');
+const formData = require('express-form-data');
+
+
 //const IncomingForm = require("formidable").IncomingForm;
 
 
 // JSON WEB TOKEN HER
 
-
 //ROUTES//
 app.use(cors());
 app.use(express.json());
+app.use(formData.parse());
+
+
+
+cloudinary.config({ 
+  cloud_name: 'dzlw3saez', 
+  api_key: '344633846794695',
+  api_secret: 'MJ8SGQXMdW-KLzW6rIIibjg91r0'
+});
 
 // JSON WEB TOKEN API
 app.get("/api", (res, req) => {
@@ -144,6 +156,20 @@ app.post("/blogposts", async (req, res) => {
     console.err(err.message);
   }
 });
+
+
+//create a new image
+app.post("/image-upload", async (req, res) => {
+
+  // const {img}  = req.body;
+
+  const path = Object.values(Object.values(req.files)[0])[0].path;
+  cloudinary.uploader.upload(path)
+    .then(image => res.json([image]));
+   
+});
+
+
 
 //get all blogposts
 app.get("/blogposts", async (req, res) => {
