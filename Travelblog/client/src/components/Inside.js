@@ -1,5 +1,11 @@
 import React, { Fragment, useState } from "react";
 
+const getUserName = () => {
+  const token = localStorage.getItem("token");
+  console.log(token);
+  return token;
+};
+
 const InputTodo = () => {
   const [description, setDiscription] = useState("");
 

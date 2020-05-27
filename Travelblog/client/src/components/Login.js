@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { Button, FormControl, Form } from "react-bootstrap";
+import { FormControl, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import "./Login.css";
@@ -28,11 +28,6 @@ function Login(props) {
     };
 
     try {
-      /*const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      }); */
       props.logIn(body);
     } catch (err) {
       console.error(err.message);

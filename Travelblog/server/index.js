@@ -4,13 +4,11 @@ const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
 
-// JSON WEB TOKEN HERE
-
 //ROUTES//
 app.use(cors());
 app.use(express.json());
 
-// JSON WEB TOKEN API
+// JSON WEB TOKEN
 app.get("/api", (res, req) => {
   res.json({
     message: "Welcome to the aPI"
@@ -18,6 +16,7 @@ app.get("/api", (res, req) => {
 });
 
 // VerifyToken
+// verify to access protected pages with token
 function verifyToken(req, res, next) {
   const token = req.header("auth-token");
   //Check if bearer is undefined
@@ -32,23 +31,23 @@ function verifyToken(req, res, next) {
   }
 }
 
+// Sign up user
 app.post("/signup", async (req, res) => {
   try {
     const { email, password, firstName, familyName } = req.body;
-    // Search if user already exist in database
 
+    // Search if user already exist in database
     const userexist = await pool.query(
-      "SELECT email FROM users WHERE email LIKE $1",
+      "SELECT email FROM userdata WHERE email LIKE $1",
       [email]
     );
-    // Check if rows in userecist is "empty" (rows = [])
+    // Check if rows in userexist is "empty" (rows = [])
     if (userexist.rows.length > 0) {
-      // Return responde that user already exist
       res.json({ msg: "User already exisit" });
     } else {
       //Create user if rows is empty
       const newUser = await pool.query(
-        "INSERT INTO users (email, password, firstName, familyName) VALUES($1, $2, $3, $4) RETURNING *",
+        "INSERT INTO userdata (email, password, firstName, familyName) VALUES($1, $2, $3, $4) RETURNING *",
         [email, password, firstName, familyName]
       );
       res.json(newUser.rows);
@@ -59,7 +58,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// log in
+// Login user
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,13 +66,13 @@ app.post("/login", async (req, res) => {
     // Validation
 
     const getUser = await pool.query(
-      "SELECT * FROM users WHERE email LIKE $1",
+      "SELECT * FROM userdata WHERE email LIKE $1",
       [email]
     );
 
     const loginUser = getUser.rows[0];
     const checkpassword = await pool.query(
-      "SELECT password FROM users WHERE email LIKE $1",
+      "SELECT password FROM userdata WHERE email LIKE $1",
       [email]
     );
     if (loginUser)
@@ -82,9 +81,7 @@ app.post("/login", async (req, res) => {
 
         //create and assign token
         const token = jwt.sign({ loginUser }, "secretKey");
-
-        //res.header("auth-token", token).send(token);
-
+        // return user token and user data
         res.json({ token, loginUser });
       } else {
         console.log("Invalid passwod");
@@ -93,74 +90,32 @@ app.post("/login", async (req, res) => {
     console.error(err.message);
   }
 });
-/*
-app.post("/signup", async (req, res) => {
-  try {
-    const { email, password, firstName, familyName } = req.body;
-    // Search if user already exist in database
-
-    const userexist = await pool.query(
-      "SELECT email FROM users WHERE email LIKE $1",
-      [email]
-    );
-    // Check if rows in userecist is "empty" (rows = [])
-    if (userexist.rows.length > 0) {
-      // Return responde that user already exist
-      res.json({ msg: "User already exisit" });
-    } else {
-      //Create user if rows is empty
-      const newUser = await pool.query(
-        "INSERT INTO users (email, password, firstName, familyName) VALUES($1, $2, $3, $4) RETURNING *",
-        [email, password, firstName, familyName]
-      );
-      res.json(newUser.rows);
-      console.log("Successfully signed up user");
-    }
-  } catch (err) {
-    console.error(err.message);
-  }
-}); */
-
-//test
-app.get("/test", verifyToken, (req, res) => {
-  res.json({ posts: { title: "hello", description: "Hello again" } });
-});
 
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { description } = req.body;
+    const { description, id } = req.body;
+
     const newBlogPost = await pool.query(
-      "INSERT INTO blogpost (description) VALUES($1) RETURNING *",
-      [description]
+      "INSERT INTO blog (description, user_id) VALUES( $1, $2) RETURNING *",
+      [description, id]
     );
 
     res.json(newBlogPost.rows[0]);
   } catch (err) {
-    console.err(err.message);
+    console.log(err.message);
   }
 });
 
-//get all blogposts
-app.get("/blogposts", verifyToken, async (req, res) => {
-  try {
-    const allBlogPosts = await pool.query("SELECT * FROM blogpost");
-    res.json(allBlogPosts.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
-//get a blogpost
+//get user blogposts
 app.get("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const blogpost = await pool.query(
-      "SELECT * FROM blogpost WHERE blogpost_id = $1",
+    const allBlogPosts = await pool.query(
+      "SELECT * FROM blog WHERE user_id = $1",
       [id]
     );
-
-    res.json(blogpost.rows[0]);
+    res.json(allBlogPosts.rows);
   } catch (err) {
     console.error(err.message);
   }
