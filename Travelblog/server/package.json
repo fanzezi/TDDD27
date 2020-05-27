@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cloudinary": "^1.21.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-form-data": "^2.0.13",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.0.3"
   }

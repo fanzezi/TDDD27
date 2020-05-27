@@ -1,11 +1,29 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
+//import testimage from "./testis.png";
 
 const InputBlogPost = props => {
   const [description, setDescription] = useState("");
   // From reducers to access user ID
   const { loginUser } = props.auth;
   const id = loginUser.id;
+
+  //File testfile = new File(testimage);
+
+  /* const onSubmitForm = async e => {
+    e.preventDefault();
+    try {
+      const body = { description };
+      const response = await fetch("http://localhost:5000/blogposts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      window.location = "/";
+    } catch (err) {
+      console.error(err.message);
+    }
+  };*/
 
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -18,7 +36,7 @@ const InputBlogPost = props => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-      console.log(response);
+
       window.location = "/";
     } catch (err) {
       console.error(err.message);
