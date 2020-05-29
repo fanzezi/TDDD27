@@ -21,6 +21,7 @@ CREATE TABLE blog(
 CREATE TABLE userdata(
     id SERIAL,
     email VARCHAR(50),
+    map text[],
     password VARCHAR(30),
     firstname VARCHAR(50),
     familyname VARCHAR(50),

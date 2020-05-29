@@ -125,6 +125,21 @@ app.get("/blogposts/:id", async (req, res) => {
   }
 });
 
+
+//get userdata
+app.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allInfo = await pool.query(
+      "SELECT * FROM userdata WHERE id = $1",
+      [id]
+    );
+    res.json(allInfo.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 //edit a blogpost
 app.put("/blogposts/:id", async (req, res) => {
   try {
@@ -136,6 +151,21 @@ app.put("/blogposts/:id", async (req, res) => {
     );
 
     res.json("Blogpost was updated");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//edit map
+app.put("/map", async (req, res) => {
+  try {
+    const { map, id } = req.body;
+    const updateMap = await pool.query(
+      "UPDATE userdata SET map = $1 WHERE id = $2",
+      [map, id]
+    );
+
+    res.json("Map was updated");
   } catch (err) {
     console.error(err.message);
   }
