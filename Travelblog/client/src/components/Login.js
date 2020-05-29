@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import "./Login.css";
 import { logIn } from "../actions/authAction";
 
-var getCurrentUser = null;
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -77,4 +76,4 @@ const mapStateToProps = state => ({
   isLogged: state.isLogged
 });
 
-export default connect(mapStateToProps, { logIn, getCurrentUser })(Login);
+export default connect(mapStateToProps, { logIn })(Login);

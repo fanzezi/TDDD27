@@ -3,23 +3,13 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
-const cloudinary = require("cloudinary");
-const formData = require("express-form-data");
-
-//const IncomingForm = require("formidable").IncomingForm;
 
 // JSON WEB TOKEN HER
 
 //ROUTES//
 app.use(cors());
 app.use(express.json());
-app.use(formData.parse());
 
-cloudinary.config({
-  cloud_name: "dzlw3saez",
-  api_key: "344633846794695",
-  api_secret: "MJ8SGQXMdW-KLzW6rIIibjg91r0"
-});
 
 // JSON WEB TOKEN
 app.get("/api", (res, req) => {
@@ -107,11 +97,11 @@ app.post("/login", async (req, res) => {
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { description, id } = req.body;
+    const { description, id, image_url} = req.body;
 
     const newBlogPost = await pool.query(
-      "INSERT INTO blog (description, user_id) VALUES( $1, $2) RETURNING *",
-      [description, id]
+      "INSERT INTO blog (description, user_id, image_url) VALUES( $1, $2, $3) RETURNING *",
+      [description, id, image_url],
     );
 
     res.json(newBlogPost.rows[0]);
@@ -120,13 +110,6 @@ app.post("/blogposts", async (req, res) => {
   }
 });
 
-//create a new image
-app.post("/image-upload", async (req, res) => {
-  // const {img}  = req.body;
-
-  const path = Object.values(Object.values(req.files)[0])[0].path;
-  cloudinary.uploader.upload(path).then(image => res.json([image]));
-});
 
 //get user blogposts
 app.get("/blogposts/:id", async (req, res) => {

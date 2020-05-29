@@ -12,10 +12,10 @@ DROP TABLE IF EXISTS blog;
 CREATE TABLE blog(
     post_id SERIAL,
     user_id INTEGER,
+    image_url text,
     description VARCHAR(255), 
     PRIMARY KEY(post_id),
-    FOREIGN KEY (user_id) REFERENCES userdata (id) ON DELETE CASCADE 
-    
+    FOREIGN KEY (user_id) REFERENCES userdata (id) ON DELETE CASCADE     
 );
 
 CREATE TABLE userdata(
