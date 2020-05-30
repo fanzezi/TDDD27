@@ -25,8 +25,9 @@ import Signup from "./components/Signup";
 function App(props) {
   const { isLoggedIn, loginUser } = props.isLogged;
   const username = loginUser.firstname;
-  const userInfo = loginUser;
-  console.log(userInfo);
+  const surname = loginUser.familyname;
+  const email = loginUser.email;
+  const totalCountries = loginUser.map.length;
 
   return (
     <div>
@@ -45,7 +46,10 @@ function App(props) {
             path="/about"
             isLoggedIn={isLoggedIn}
             component={About}
-            userInfo={userInfo}
+            username={username}
+            surname={surname}
+            email={email}
+            totalCountries={totalCountries}
           ></PrivateRoute>
           <PrivateRoute
             path="/newPost"
@@ -81,7 +85,7 @@ const startPage = () => (
             friends and family all about your travel journeys and make them
             jealous! <br />
             <br />
-            Dont have an account? Sign up below!
+            Don't have an account? <b>Sign up to the right!</b>
           </p>
         </Col>
         <Col>
@@ -92,13 +96,27 @@ const startPage = () => (
   </Fragment>
 );
 
-function PrivateRoute({ username, isLoggedIn, component: Component, ...rest }) {
+function PrivateRoute({
+  username,
+  surname,
+  email,
+  totalCountries,
+  isLoggedIn,
+  component: Component,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
       render={({ location }) =>
         isLoggedIn ? (
-          <Component {...location} username={username} />
+          <Component
+            {...location}
+            username={username}
+            surname={surname}
+            email={email}
+            totalCountries={totalCountries}
+          />
         ) : (
           <Redirect
             to={{
@@ -118,7 +136,9 @@ const mapStateToProps = state => ({
 
 const Home = ({ username }) => (
   <Fragment>
-    <h1 className="text-center mt-5">{username}s Travelblog</h1>
+    <h1 className="text-center mt-5 font-weight-light">
+      {username}s Travelblog
+    </h1>
     <div className="container">
       <MapController />
       <NavLink to="/newPost">
@@ -134,20 +154,44 @@ const Home = ({ username }) => (
   </Fragment>
 );
 
-const About = ({ userInfo }) => (
-  <div className="about">
-    <h1>About me{userInfo}</h1>
+const About = ({ username, surname, email, totalCountries }) => (
+  <div
+    className="about"
+    style={{
+      display: "flex",
+      height: "70vh",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column"
+    }}
+  >
+    <div className="infoBox bg-light w-50 mx-auto ">
+      <h1 className="text-center">
+        {username} {surname}
+      </h1>
+      <p className="text-center">Here you can find your user information</p>
 
-    <p>
-      Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident
-      corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum
-      molestias?
-    </p>
-    <p>
-      Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident
-      corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum
-      molestias?
-    </p>
+      <table className=" w-70 mt-5 mb-5 mx-auto">
+        <tbody>
+          <tr>
+            <th>Name: </th>
+            <td>{username}</td>
+          </tr>
+          <tr>
+            <th> Family name: </th>
+            <td>{surname}</td>
+          </tr>
+          <tr>
+            <th> Email: </th>
+            <td>{email}</td>
+          </tr>
+          <tr>
+            <th> Total countries visited: </th>
+            <td>{totalCountries}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 );
 
@@ -163,23 +207,27 @@ const Navigation = ({ isLoggedIn }) => (
       <Fragment>
         <Navbar bg="dark" variant="dark">
           <Nav className="mr-auto">
-            <Dropdown style={{ color: "White" }}>
-              <Dropdown.Toggle
-                variant="dark"
-                size="sm"
-                id="dropdown-basic"
-              ></Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <NavLink to="/home">Home</NavLink>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <NavLink to="/about">About user</NavLink>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-              Meny
-            </Dropdown>
+            <h5 className="text-white ml-1">
+              <i>T r a v e l B l o g</i>
+            </h5>
+            <img src="../logo_travelblog.png" width="70"></img>
           </Nav>
+          <Dropdown style={{ color: "White" }} className="mr-5">
+            <Dropdown.Toggle
+              variant="dark"
+              size="sm"
+              id="dropdown-basic"
+            ></Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <NavLink to="/home">Home</NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <NavLink to="/about">About user</NavLink>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+            Meny
+          </Dropdown>
 
           <Logout />
         </Navbar>

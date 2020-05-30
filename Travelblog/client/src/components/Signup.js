@@ -37,64 +37,65 @@ export default function Login() {
 
   return (
     <Fragment>
-    <div className="SignUp">
-      <form onSubmit={signupSubmit} className="bg-light">
-        <FormGroup controlId="firstName">
-          <FormLabel>First name</FormLabel>
-          <FormControl
-            size="sm"
-            value={firstName}
-            onChange={e => setName(e.target.value)}
-            type="text"
-          />
-        </FormGroup>
+      <div className="SignUp">
+        <form onSubmit={signupSubmit} className="bg-light">
+          <FormGroup controlId="firstName">
+            <h2 className="text-center font-weight-light">Sign up here!</h2>
+            <FormLabel>First name</FormLabel>
+            <FormControl
+              size="sm"
+              value={firstName}
+              onChange={e => setName(e.target.value)}
+              type="text"
+            />
+          </FormGroup>
 
-        <FormGroup controlId="familyName">
-          <FormLabel> Family name</FormLabel>
-          <FormControl
-            size="sm"
-            value={familyName}
-            onChange={e => setFamilyName(e.target.value)}
-            type="text"
-          />
-        </FormGroup>
+          <FormGroup controlId="familyName">
+            <FormLabel> Family name</FormLabel>
+            <FormControl
+              size="sm"
+              value={familyName}
+              onChange={e => setFamilyName(e.target.value)}
+              type="text"
+            />
+          </FormGroup>
 
-        <FormGroup controlId="email">
-          <FormLabel>Email</FormLabel>
-          <FormControl
-            autoFocus
-            size="sm"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </FormGroup>
+          <FormGroup controlId="email">
+            <FormLabel>Email</FormLabel>
+            <FormControl
+              autoFocus
+              size="sm"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </FormGroup>
 
-        <FormGroup controlId="password">
-          <FormLabel>Password</FormLabel>
-          <FormControl
-            size="sm"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-          />
-        </FormGroup>
+          <FormGroup controlId="password">
+            <FormLabel>Password</FormLabel>
+            <FormControl
+              size="sm"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              type="password"
+            />
+          </FormGroup>
 
-        <FormGroup controlId="rpt-password">
-          <FormLabel>Repeat password</FormLabel>
-          <FormControl
-            size="sm"
-            value={rptPsw}
-            onChange={e => setRptPassword(e.target.value)}
-            type="password"
-          />
-        </FormGroup>
+          <FormGroup controlId="rpt-password">
+            <FormLabel>Repeat password</FormLabel>
+            <FormControl
+              size="sm"
+              value={rptPsw}
+              onChange={e => setRptPassword(e.target.value)}
+              type="password"
+            />
+          </FormGroup>
 
-        <Button size="sm" disabled={!validateForm()} type="submit">
-          Sign up
-        </Button>
-      </form>
-    </div>
+          <Button size="sm" disabled={!validateForm()} type="submit">
+            Sign up
+          </Button>
+        </form>
+      </div>
     </Fragment>
   );
 }

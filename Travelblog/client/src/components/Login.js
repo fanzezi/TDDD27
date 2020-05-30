@@ -44,8 +44,14 @@ function Login(props) {
   return (
     <Fragment>
       {isLoggedIn ? " " : null}
-      <div className="loginBox w-100 p-2 bg-dark float-right">
-        <Form inline className="float-right" onSubmit={loginSubmit}>
+      <div className="loginBox d-flex  w-100  p-2 bg-dark float-right">
+        <h5 className="text-white ml-1">
+          {" "}
+          <i>T r a v e l B l o g</i>
+        </h5>
+        <img src="../logo_travelblog.png" width="70"></img>
+
+        <Form inline className="ml-auto" onSubmit={loginSubmit}>
           <FormControl
             autoFocus
             placeholder="Email"
