@@ -1,12 +1,12 @@
 CREATE DATABASE pernblog;
 
 /*Change the length of the blog post?*/
-CREATE TABLE blogpost(
+/*CREATE TABLE blogpost(
     blogpost_id SERIAL PRIMARY KEY, 
     description VARCHAR(255),
     imgname text,
     img bytea 
-);
+);*/
  
 DROP TABLE IF EXISTS blog;
 CREATE TABLE blog(
@@ -29,13 +29,13 @@ CREATE TABLE userdata(
 );
 
 /*FOREIGN KEY (id) REFERENCES userdata(id) ON DELETE CASCADE */
-CREATE TABLE users(
+/*CREATE TABLE users(
     email VARCHAR(50),
     password VARCHAR(30),
     firstname VARCHAR(50),
     familyname VARCHAR(50),
     PRIMARY KEY(email)
-);
+);*/
 
 
 

@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use(express.json());
 
-
 // JSON WEB TOKEN
 app.get("/api", (res, req) => {
   res.json({
@@ -97,11 +96,11 @@ app.post("/login", async (req, res) => {
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { description, id, image_url} = req.body;
+    const { description, id, image_url } = req.body;
 
     const newBlogPost = await pool.query(
       "INSERT INTO blog (description, user_id, image_url) VALUES( $1, $2, $3) RETURNING *",
-      [description, id, image_url],
+      [description, id, image_url]
     );
 
     res.json(newBlogPost.rows[0]);
@@ -109,7 +108,6 @@ app.post("/blogposts", async (req, res) => {
     console.err(err.message);
   }
 });
-
 
 //get user blogposts
 app.get("/blogposts/:id", async (req, res) => {
@@ -125,32 +123,14 @@ app.get("/blogposts/:id", async (req, res) => {
   }
 });
 
-
 //get userdata
 app.get("/user/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const allInfo = await pool.query(
-      "SELECT * FROM userdata WHERE id = $1",
-      [id]
-    );
+    const allInfo = await pool.query("SELECT * FROM userdata WHERE id = $1", [
+      id
+    ]);
     res.json(allInfo.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
-//edit a blogpost
-app.put("/blogposts/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { description } = req.body;
-    const updateBlogPost = await pool.query(
-      "UPDATE blogpost SET description = $1 WHERE blogpost_id = $2",
-      [description, id]
-    );
-
-    res.json("Blogpost was updated");
   } catch (err) {
     console.error(err.message);
   }
@@ -171,12 +151,28 @@ app.put("/map", async (req, res) => {
   }
 });
 
+//edit a blogpost
+app.put("/blogposts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description } = req.body;
+    const updateBlogPost = await pool.query(
+      "UPDATE blog SET description = $1 WHERE post_id = $2",
+      [description, id]
+    );
+
+    res.json("Blogpost was updated");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 //delete a blogpost
 app.delete("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteBlogPost = await pool.query(
-      "DELETE FROM blogpost WHERE blogpost_id = $1",
+      "DELETE FROM blog WHERE post_id = $1",
       [id]
     );
     res.json("Blogpost was deleted");
