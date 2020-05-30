@@ -1,28 +1,23 @@
 import { logOut } from "../actions/authAction";
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
+function Logout(props) {
+  function test() {
+    return props.logOut();
+  }
 
-
-function Logout(props){
-
-    function test(){
-        return props.logOut();
-    }
-
-    return(
+  return (
     <Fragment>
-        <button onClick = {test}>
-          Logout
-        </button>
+      <button class="btn btn-light" onClick={test}>
+        Logout
+      </button>
     </Fragment>
-       
-    );
-
+  );
 }
 
 const mapStateToProps = state => ({
-    isLogged: state.isLogged
-  });
+  isLogged: state.isLogged
+});
 
-  export default connect(mapStateToProps, { logOut })(Logout);
+export default connect(mapStateToProps, { logOut })(Logout);

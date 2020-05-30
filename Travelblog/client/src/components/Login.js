@@ -44,8 +44,8 @@ function Login(props) {
   return (
     <Fragment>
       {isLoggedIn ? " " : null}
-      <div className="loginBox w-100 p-2 mb-2 bg-dark ">
-        <Form inline onSubmit={loginSubmit}>
+      <div className="loginBox w-100 p-2 bg-dark float-right">
+        <Form inline className="float-right" onSubmit={loginSubmit}>
           <FormControl
             autoFocus
             placeholder="Email"
@@ -63,7 +63,11 @@ function Login(props) {
             type="password"
           />
 
-          <button disabled={!validateForm()} type="submit">
+          <button
+            class="btn btn-light"
+            disabled={!validateForm()}
+            type="submit"
+          >
             Login
           </button>
         </Form>

@@ -28,10 +28,14 @@ const ListBlogPosts = props => {
   return (
     <Fragment>
       {" "}
-      <table className="table mt-5 text-center" id="top-leader" responsive>
+      <table
+        className="table w-75 mx-auto  mt-5 text-center "
+        id="top-leader"
+        responsive
+      >
         {blogposts.reverse().map(blogpost => (
           <tbody>
-            <Row key={blogpost.post_id}>
+            <Row key={blogpost.post_id} className="mt-3 mb-3">
               <Col>
                 <Row>
                   <Col>{blogpost.description}</Col>
@@ -44,13 +48,12 @@ const ListBlogPosts = props => {
                   </Col>
                 </Row>
               </Col>
-              <td>
-                <EditBlogPost
-                  blogpost={blogpost}
-                  blogposts={blogposts}
-                  setBlogposts={setBlogposts}
-                />
-              </td>
+
+              <EditBlogPost
+                blogpost={blogpost}
+                blogposts={blogposts}
+                setBlogposts={setBlogposts}
+              />
             </Row>
           </tbody>
         ))}

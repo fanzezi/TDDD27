@@ -6,7 +6,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logIn, logOut } from "./actions/authAction";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -25,6 +25,8 @@ import Signup from "./components/Signup";
 function App(props) {
   const { isLoggedIn, loginUser } = props.isLogged;
   const username = loginUser.firstname;
+  const userInfo = loginUser;
+  console.log(userInfo);
 
   return (
     <div>
@@ -43,6 +45,7 @@ function App(props) {
             path="/about"
             isLoggedIn={isLoggedIn}
             component={About}
+            userInfo={userInfo}
           ></PrivateRoute>
           <PrivateRoute
             path="/newPost"
@@ -60,15 +63,31 @@ function App(props) {
 const startPage = () => (
   <Fragment>
     <Login />
-    <div className="container">
-      <p>
-        Welcome to <b>TravelBlog</b> the place where you can tell your friends
-        and family all about your travel journeys and make them jealous! <br />
-        <br />
-        Dont have an account? Sign up below!
-      </p>
-
-      <Signup />
+    <div
+      className="container "
+      style={{
+        display: "flex",
+        height: "90vh",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column"
+      }}
+    >
+      <Row>
+        <Col>
+          <img src="../world_map.png" width="500"></img>
+          <p>
+            Welcome to <b>TravelBlog</b> the place where you can tell your
+            friends and family all about your travel journeys and make them
+            jealous! <br />
+            <br />
+            Dont have an account? Sign up below!
+          </p>
+        </Col>
+        <Col>
+          <Signup />
+        </Col>
+      </Row>
     </div>
   </Fragment>
 );
@@ -115,9 +134,10 @@ const Home = ({ username }) => (
   </Fragment>
 );
 
-const About = () => (
+const About = ({ userInfo }) => (
   <div className="about">
-    <h1>About Me</h1>
+    <h1>About me{userInfo}</h1>
+
     <p>
       Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident
       corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum
@@ -138,32 +158,34 @@ const NewPost = () => (
 );
 
 const Navigation = ({ isLoggedIn }) => (
-  <Navbar bg="dark" variant="dark">
+  <Fragment>
     {isLoggedIn ? (
       <Fragment>
-        <Nav className="mr-auto">
-          <Dropdown style={{ color: "White" }}>
-            <Dropdown.Toggle
-              variant="dark"
-              size="sm"
-              id="dropdown-basic"
-            ></Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <NavLink to="/home">Home</NavLink>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <NavLink to="/about">About user</NavLink>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-            Meny
-          </Dropdown>
-        </Nav>
+        <Navbar bg="dark" variant="dark">
+          <Nav className="mr-auto">
+            <Dropdown style={{ color: "White" }}>
+              <Dropdown.Toggle
+                variant="dark"
+                size="sm"
+                id="dropdown-basic"
+              ></Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <NavLink to="/home">Home</NavLink>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <NavLink to="/about">About user</NavLink>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+              Meny
+            </Dropdown>
+          </Nav>
 
-        <Logout />
+          <Logout />
+        </Navbar>
       </Fragment>
     ) : null}
-  </Navbar>
+  </Fragment>
 );
 
 export default connect(mapStateToProps, { logIn, logOut })(App);

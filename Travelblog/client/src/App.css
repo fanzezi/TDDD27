@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -12,7 +13,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.geomap:focus {
+  outline: none;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

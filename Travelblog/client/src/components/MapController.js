@@ -60,8 +60,6 @@ const MapController = props => {
     }
   };
 
-  console.log(userData);
-
   return (
     <Fragment>
       <ComposableMap height={400}>
@@ -69,26 +67,35 @@ const MapController = props => {
           {({ geographies }) =>
             geographies.map(geo => {
               let isHighlighted = "";
+
               if (highlighted != null) {
                 isHighlighted =
                   highlighted.indexOf(geo.properties.ISO_A3) !== -1;
               }
 
+              let selected = "";
+              if (country != null) {
+                selected = country.indexOf(geo.properties.ISO_A3) !== -1;
+              }
+
               return (
                 <Geography
+                  className="geomap"
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={isHighlighted ? "#ADD8E6" : "lightgray"}
+                  fill={
+                    isHighlighted
+                      ? "#ADD8E6"
+                      : selected
+                      ? "#072F79"
+                      : "lightgray"
+                  }
                   onMouseDown={() => {
                     setCountry(geo.properties.ISO_A3);
                   }}
                   style={{
                     hover: {
                       fill: "darkgray",
-                      outline: "none"
-                    },
-                    pressed: {
-                      fill: "yellow",
                       outline: "none"
                     }
                   }}

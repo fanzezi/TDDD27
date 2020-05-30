@@ -1,12 +1,10 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import ImageUploader from 'react-images-upload';
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-import {storage} from "./firebase";
-
+import ImageUploader from "react-images-upload";
+import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
+import { storage } from "./firebase";
 
 const InputBlogPost = props => {
-  
   const [image, setImage] = useState(null);
   const [image_url, setUrl] = useState("hej");
   const [description, setDescription] = useState("");
@@ -14,24 +12,24 @@ const InputBlogPost = props => {
   // From reducers to access user ID
   const { loginUser } = props.auth;
   const id = loginUser.id;
- 
-  const handleImageAsFile = e =>{
-   if(e.target.files[0]){
-    setImage(e.target.files[0]);
-   }
-  }
+
+  const handleImageAsFile = e => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
 
   const handleFireBaseUpload = e => {
-
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
-
+    document.getElementById("uploadText").innerHTML =
+      "<b>Image uploaded Successfully!</b>";
     uploadTask.on(
       "state_changed",
       snapshot => {},
       error => {
         console.log(error);
       },
-      ()=> {
+      () => {
         storage
           .ref("images")
           .child(image.name)
@@ -40,21 +38,20 @@ const InputBlogPost = props => {
             setUrl(url);
           });
       }
-    )
-  }
+    );
+  };
 
-
-    const onSubmitForm = async e => {
+  const onSubmitForm = async e => {
     e.preventDefault();
 
     try {
       // Post blogpost
 
-      const body = { description, id, image_url};
+      const body = { description, id, image_url };
       const response = await fetch("http://localhost:5000/blogposts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
       });
 
       window.location = "/";
@@ -62,12 +59,30 @@ const InputBlogPost = props => {
       console.error(err.message);
     }
   };
-  
+
   return (
-    <Fragment>
-      
+    <div className="wrapper mx-auto">
       <h1 className="text-center mt-5">Write a new blogpost</h1>
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+
+      <div
+        style={{
+          display: "flex",
+
+          alignItems: "center",
+          flexDirection: "column"
+        }}
+      >
+        <input type="file" onChange={handleImageAsFile}></input>
+        <button className="btn btn-info" onClick={handleFireBaseUpload}>
+          upload image
+        </button>
+        <div id="uploadText">
+          {" "}
+          <b>
+            Upload your image! <br />
+            By first choose a file and the press <i>upload image</i>
+          </b>
+        </div>
         <form className="text-center mt-5" onSubmit={onSubmitForm}>
           <textarea
             style={{ width: "600px", height: "400px" }}
@@ -76,15 +91,13 @@ const InputBlogPost = props => {
             value={description}
             onChange={e => setDescription(e.target.value)}
           />
-               
+
           <button className="btn btn-secondary btn-lg btn-block mt-5">
             Submit post
           </button>
-        </form>   
-        <input type="file" onChange={handleImageAsFile}></input>   
-        <button onClick={handleFireBaseUpload}>upload image</button>       
+        </form>
       </div>
-    </Fragment>
+    </div>
   );
 };
 
