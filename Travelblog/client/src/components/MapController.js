@@ -78,7 +78,7 @@ const MapController = props => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={isHighlighted ? "blue" : ""}
+                  fill={isHighlighted ? "#ADD8E6" : "lightgray"}
                   onMouseDown={() => {
                     setCountry(geo.properties.ISO_A3);
                   }}
