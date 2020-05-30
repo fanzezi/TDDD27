@@ -24,15 +24,13 @@ import Signup from "./components/Signup";
 
 function App(props) {
   const { isLoggedIn, loginUser } = props.isLogged;
-  console.log("loginUser");
-  console.log(loginUser.firstname);
   const username = loginUser.firstname;
 
   return (
     <div>
       <BrowserRouter>
-        <Navigation />
-        <Navbar className="bg-light justify-content-end"></Navbar>
+        <Navigation isLoggedIn={isLoggedIn} />
+
         <Switch>
           <Route exact path="/" children={startPage}></Route>
           <PrivateRoute
@@ -60,16 +58,19 @@ function App(props) {
 /* <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> */
 
 const startPage = () => (
-  <div className="container">
-    <p>
-      Welcome to <b>TravelBlog</b> the place where you can tell your friends and
-      family all about your travel journeys and make them jealous! <br />
-      <br />
-      Dont have an account? Sign up below!
-    </p>
+  <Fragment>
     <Login />
-    <Signup />
-  </div>
+    <div className="container">
+      <p>
+        Welcome to <b>TravelBlog</b> the place where you can tell your friends
+        and family all about your travel journeys and make them jealous! <br />
+        <br />
+        Dont have an account? Sign up below!
+      </p>
+
+      <Signup />
+    </div>
+  </Fragment>
 );
 
 function PrivateRoute({ username, isLoggedIn, component: Component, ...rest }) {
@@ -99,7 +100,6 @@ const mapStateToProps = state => ({
 const Home = ({ username }) => (
   <Fragment>
     <h1 className="text-center mt-5">{username}s Travelblog</h1>
-    <Logout />
     <div className="container">
       <MapController />
       <NavLink to="/newPost">
@@ -137,26 +137,32 @@ const NewPost = () => (
   </Fragment>
 );
 
-const Navigation = () => (
+const Navigation = ({ isLoggedIn }) => (
   <Navbar bg="dark" variant="dark">
-    <Nav className="mr-auto">
-      <Dropdown style={{ color: "White" }}>
-        <Dropdown.Toggle
-          variant="dark"
-          size="sm"
-          id="dropdown-basic"
-        ></Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item>
-            <NavLink to="/home">Home</NavLink>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <NavLink to="/about">About user</NavLink>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-        Meny
-      </Dropdown>
-    </Nav>
+    {isLoggedIn ? (
+      <Fragment>
+        <Nav className="mr-auto">
+          <Dropdown style={{ color: "White" }}>
+            <Dropdown.Toggle
+              variant="dark"
+              size="sm"
+              id="dropdown-basic"
+            ></Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <NavLink to="/home">Home</NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <NavLink to="/about">About user</NavLink>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+            Meny
+          </Dropdown>
+        </Nav>
+
+        <Logout />
+      </Fragment>
+    ) : null}
   </Navbar>
 );
 

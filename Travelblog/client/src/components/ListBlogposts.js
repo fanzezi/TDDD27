@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Row, Col } from "react-bootstrap";
 import EditBlogPost from "./EditBlogPost";
 
 const ListBlogPosts = props => {
@@ -27,16 +28,22 @@ const ListBlogPosts = props => {
   return (
     <Fragment>
       {" "}
-      <table className="table mt-5 text-center" id="top-leader">
-        <tbody>
-          {blogposts.reverse().map(blogpost => (
-            <tr key={blogpost.post_id}>
-              <td>{blogpost.description}</td>
-              <td>
-                {" "}
-                <img src={blogpost.image_url} alt="" />
-              </td>
-
+      <table className="table mt-5 text-center" id="top-leader" responsive>
+        {blogposts.reverse().map(blogpost => (
+          <tbody>
+            <Row key={blogpost.post_id}>
+              <Col>
+                <Row>
+                  <Col>{blogpost.description}</Col>
+                </Row>
+                <Row>
+                  <br />
+                  <Col>
+                    {" "}
+                    <img src={blogpost.image_url} alt="" />
+                  </Col>
+                </Row>
+              </Col>
               <td>
                 <EditBlogPost
                   blogpost={blogpost}
@@ -44,9 +51,9 @@ const ListBlogPosts = props => {
                   setBlogposts={setBlogposts}
                 />
               </td>
-            </tr>
-          ))}
-        </tbody>
+            </Row>
+          </tbody>
+        ))}
       </table>
     </Fragment>
   );

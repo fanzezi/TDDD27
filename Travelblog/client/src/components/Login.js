@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import "./Login.css";
 import { logIn } from "../actions/authAction";
 
-
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,29 +43,31 @@ function Login(props) {
 
   return (
     <Fragment>
-      {isLoggedIn ? <p>You are in logged in state</p> : null}
-      <Form inline onSubmit={loginSubmit}>
-        <FormControl
-          autoFocus
-          placeholder="Email"
-          className="mr-3"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+      {isLoggedIn ? " " : null}
+      <div className="loginBox w-100 p-2 mb-2 bg-dark ">
+        <Form inline onSubmit={loginSubmit}>
+          <FormControl
+            autoFocus
+            placeholder="Email"
+            className="mr-3"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
 
-        <FormControl
-          value={password}
-          className="mr-3"
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-          type="password"
-        />
+          <FormControl
+            value={password}
+            className="mr-3"
+            placeholder="Password"
+            onChange={e => setPassword(e.target.value)}
+            type="password"
+          />
 
-        <button disabled={!validateForm()} type="submit">
-          Login
-        </button>
-      </Form>
+          <button disabled={!validateForm()} type="submit">
+            Login
+          </button>
+        </Form>
+      </div>
     </Fragment>
   );
 }

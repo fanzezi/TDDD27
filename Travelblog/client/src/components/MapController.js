@@ -84,7 +84,7 @@ const MapController = props => {
                   }}
                   style={{
                     hover: {
-                      fill: "#F53",
+                      fill: "darkgray",
                       outline: "none"
                     },
                     pressed: {
