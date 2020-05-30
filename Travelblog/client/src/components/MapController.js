@@ -49,7 +49,8 @@ const MapController = props => {
 
     try {
       const body = { map, id };
-      const response = await fetch(`http://localhost:5000/map`, {
+      //const response =
+      await fetch(`http://localhost:5000/map`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)

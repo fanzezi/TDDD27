@@ -11,7 +11,7 @@ import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
 const middleware = [thunk];
-const initialState = {};
+//const initialState = {};
 
 const persistConfig = {
   key: "root",

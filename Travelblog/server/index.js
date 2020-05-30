@@ -96,11 +96,11 @@ app.post("/login", async (req, res) => {
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { description, id, image_url } = req.body;
+    const { title, description, id, image_url } = req.body;
 
     const newBlogPost = await pool.query(
-      "INSERT INTO blog (description, user_id, image_url) VALUES( $1, $2, $3) RETURNING *",
-      [description, id, image_url]
+      "INSERT INTO blog (title, description, user_id, image_url) VALUES( $1, $2, $3, $4) RETURNING *",
+      [title, description, id, image_url]
     );
 
     res.json(newBlogPost.rows[0]);
@@ -155,10 +155,10 @@ app.put("/map", async (req, res) => {
 app.put("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { description } = req.body;
+    const { title, description, blog_post_id } = req.body;
     const updateBlogPost = await pool.query(
-      "UPDATE blog SET description = $1 WHERE post_id = $2",
-      [description, id]
+      "UPDATE blog SET title = $1, description = $2 WHERE post_id = $3",
+      [title, description, blog_post_id]
     );
 
     res.json("Blogpost was updated");

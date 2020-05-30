@@ -5,6 +5,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 const EditBlogPost = props => {
   const { blogpost, blogposts, setBlogposts } = props;
   const [description, setDescription] = useState(blogpost.description);
+  const [title, setTitle] = useState(blogpost.title);
+  const blog_post_id = blogpost.post_id;
 
   // Get id from reducer to get users own post
   const { loginUser } = props.auth;
@@ -12,12 +14,10 @@ const EditBlogPost = props => {
 
   const deleteBlogPost = async id => {
     try {
-      const deleteBlogPost = await fetch(
-        `http://localhost:5000/blogposts/${id}`,
-        {
-          method: "DELETE"
-        }
-      );
+      //const deleteBlogPost =
+      await fetch(`http://localhost:5000/blogposts/${id}`, {
+        method: "DELETE"
+      });
       setBlogposts(blogposts.filter(blogpost => blogpost.post_id !== id));
       //this.forceUpdate();
       window.location = "/";
@@ -26,16 +26,16 @@ const EditBlogPost = props => {
     }
   };
 
-  const updateDescription = async e => {
+  const updateBlogpost = async e => {
     e.preventDefault();
     try {
-      const body = { description };
-      const response = await fetch(`http://localhost:5000/blogposts/${id}`, {
+      const body = { title, description, blog_post_id };
+      //const response =
+      await fetch(`http://localhost:5000/blogposts/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-
       window.location = "/";
     } catch (err) {
       console.error(err.message);
@@ -84,6 +84,14 @@ const EditBlogPost = props => {
               <input
                 type="text"
                 className="form-control"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="modal-body">
+              <input
+                type="text"
+                className="form-control"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
@@ -93,7 +101,7 @@ const EditBlogPost = props => {
                 type="button"
                 className="btn btn-warning"
                 data-dismiss="modal"
-                onClick={e => updateDescription(e)}
+                onClick={e => updateBlogpost(e)}
               >
                 Edit
               </button>

@@ -9,7 +9,7 @@ function Logout(props) {
 
   return (
     <Fragment>
-      <button class="btn btn-light" onClick={test}>
+      <button className="btn btn-light" onClick={test}>
         Logout
       </button>
     </Fragment>

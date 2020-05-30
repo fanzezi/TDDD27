@@ -17,7 +17,7 @@ import "./App.css";
 import InputBlogPost from "./components/InputBlogPost";
 import ListBlogposts from "./components/ListBlogposts";
 import MapController from "./components/MapController";
-import Inside from "./components/Inside";
+//import Inside from "./components/Inside";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Signup from "./components/Signup";
@@ -27,7 +27,13 @@ function App(props) {
   const username = loginUser.firstname;
   const surname = loginUser.familyname;
   const email = loginUser.email;
-  const totalCountries = loginUser.map.length;
+  let totalCountries = "";
+
+  if (loginUser.map != null) {
+    totalCountries = loginUser.map.length;
+  } else {
+    totalCountries = "None";
+  }
 
   return (
     <div>
@@ -223,7 +229,7 @@ const Navigation = ({ isLoggedIn }) => (
                 <NavLink to="/home">Home</NavLink>
               </Dropdown.Item>
               <Dropdown.Item>
-                <NavLink to="/about">About user</NavLink>
+                <NavLink to="/about">About me</NavLink>
               </Dropdown.Item>
             </Dropdown.Menu>
             Meny

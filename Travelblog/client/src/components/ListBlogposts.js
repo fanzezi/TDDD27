@@ -27,7 +27,6 @@ const ListBlogPosts = props => {
 
   return (
     <Fragment>
-      {" "}
       <table
         className="table w-75 mx-auto  mt-5 text-center "
         id="top-leader"
@@ -38,13 +37,17 @@ const ListBlogPosts = props => {
             <Row key={blogpost.post_id} className="mt-3 mb-3">
               <Col>
                 <Row>
+                  <Col>
+                    <h3>{blogpost.title}</h3>
+                  </Col>
+                </Row>
+                <Row className="mt-2 mb-2">
                   <Col>{blogpost.description}</Col>
                 </Row>
                 <Row>
                   <br />
                   <Col>
-                    {" "}
-                    <img src={blogpost.image_url} alt="" />
+                    <img src={blogpost.image_url} width="95%" alt="" />
                   </Col>
                 </Row>
               </Col>

@@ -1,13 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import ImageUploader from "react-images-upload";
-import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
+//import ImageUploader from "react-images-upload";
+//import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import { storage } from "./firebase";
 
 const InputBlogPost = props => {
   const [image, setImage] = useState(null);
   const [image_url, setUrl] = useState("hej");
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
 
   // From reducers to access user ID
   const { loginUser } = props.auth;
@@ -47,13 +48,14 @@ const InputBlogPost = props => {
     try {
       // Post blogpost
 
-      const body = { description, id, image_url };
-      const response = await fetch("http://localhost:5000/blogposts", {
+      const body = { title, description, id, image_url };
+      console.log(body);
+      //const response =
+      await fetch("http://localhost:5000/blogposts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-
       window.location = "/";
     } catch (err) {
       console.error(err.message);
@@ -73,22 +75,32 @@ const InputBlogPost = props => {
         }}
       >
         <input type="file" onChange={handleImageAsFile}></input>
+
         <button className="btn btn-info" onClick={handleFireBaseUpload}>
           upload image
         </button>
-        <div id="uploadText">
-          {" "}
+        <div id="uploadText" className="mt-3 text-center">
           <b>
-            Upload your image! <br />
-            By first choose a file and the press <i>upload image</i>
+            Upload a image! <br />
+            By first choose a file and then press <i>upload image</i>
           </b>
         </div>
-        <form className="text-center mt-5" onSubmit={onSubmitForm}>
+        <form className="text-center mt-3 p-3" onSubmit={onSubmitForm}>
+          <textarea
+            style={{ width: "600px", height: "40px" }}
+            type="text"
+            className="form-control"
+            placeholder="Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
+          <br />
           <textarea
             style={{ width: "600px", height: "400px" }}
             type="text"
             className="form-control"
             value={description}
+            placeholder="Write what you have on your mind..."
             onChange={e => setDescription(e.target.value)}
           />
 
