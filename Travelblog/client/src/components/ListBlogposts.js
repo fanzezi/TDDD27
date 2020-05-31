@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import EditBlogPost from "./EditBlogPost";
+import clickedCountry from './MapController';
 
 const ListBlogPosts = props => {
   const [blogposts, setBlogposts] = useState([]);
@@ -21,6 +22,8 @@ const ListBlogPosts = props => {
     }
   };
 
+  console.log(clickedCountry);
+
   useEffect(() => {
     getBlogPosts();
   }, []);
@@ -39,6 +42,11 @@ const ListBlogPosts = props => {
                 <Row>
                   <Col>
                     <h3>{blogpost.title}</h3>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {blogpost.country}
                   </Col>
                 </Row>
                 <Row className="mt-2 mb-2">

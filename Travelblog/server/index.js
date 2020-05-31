@@ -96,11 +96,11 @@ app.post("/login", async (req, res) => {
 //create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { title, description, id, image_url } = req.body;
+    const { title, description, id, image_url, country} = req.body;
 
     const newBlogPost = await pool.query(
-      "INSERT INTO blog (title, description, user_id, image_url) VALUES( $1, $2, $3, $4) RETURNING *",
-      [title, description, id, image_url]
+      "INSERT INTO blog (title, description, user_id, image_url, country) VALUES( $1, $2, $3, $4, $5) RETURNING *",
+      [title, description, id, image_url, country]
     );
 
     res.json(newBlogPost.rows[0]);

@@ -14,6 +14,7 @@ CREATE TABLE blog(
     user_id INTEGER,
     image_url text,
     title VARCHAR(100),
+    country VARCHAR(60),
     description VARCHAR(255), 
     PRIMARY KEY(post_id),
     FOREIGN KEY (user_id) REFERENCES userdata (id) ON DELETE CASCADE     

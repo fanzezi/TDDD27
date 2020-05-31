@@ -1,24 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 //import ImageUploader from "react-images-upload";
 //import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import { storage } from "./firebase";
+import {countries} from 'country-data';
+
 
 const InputBlogPost = props => {
   const [image, setImage] = useState(null);
   const [image_url, setUrl] = useState("hej");
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
+  const [country, setCountry] = useState("");
+  const [userData, setData] = useState([]);
 
   // From reducers to access user ID
   const { loginUser } = props.auth;
   const id = loginUser.id;
+
+  let userCountries = [""];
+
+  if (userData[0] !== undefined) {
+    userCountries = userData[0].map;
+  }
 
   const handleImageAsFile = e => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
+
+  const getUserData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/user/${id}`);
+      const jsonData = await response.json();
+      setData(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   const handleFireBaseUpload = e => {
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
@@ -48,7 +72,7 @@ const InputBlogPost = props => {
     try {
       // Post blogpost
 
-      const body = { title, description, id, image_url };
+      const body = { title, description, id, image_url, country};
       console.log(body);
       //const response =
       await fetch("http://localhost:5000/blogposts", {
@@ -94,6 +118,16 @@ const InputBlogPost = props => {
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
+          <select
+            value={country}
+            onChange={e => setCountry(e.target.value)}
+            >
+          {userCountries.map(country => (
+          <option>
+            {country ?  countries[country].name : "Choose which country the post is related to"}
+          </option>
+          ))} 
+          </select>
           <br />
           <textarea
             style={{ width: "600px", height: "400px" }}

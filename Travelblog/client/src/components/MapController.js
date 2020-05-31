@@ -5,13 +5,15 @@ import { connect } from "react-redux";
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const MapController = props => {
+  const MapController = props => {
   const [country, setCountry] = useState("");
   const [userData, setData] = useState([]);
 
   const { loginUser } = props.auth;
   const id = loginUser.id;
   let highlighted = [""];
+
+  
 
   if (userData[0] !== undefined) {
     highlighted = userData[0].map;
@@ -61,6 +63,8 @@ const MapController = props => {
     }
   };
 
+
+
   return (
     <Fragment>
       <ComposableMap height={400}>
@@ -70,7 +74,7 @@ const MapController = props => {
               let isHighlighted = "";
 
               if (highlighted != null) {
-                isHighlighted =
+                  isHighlighted =
                   highlighted.indexOf(geo.properties.ISO_A3) !== -1;
               }
 
