@@ -24,7 +24,7 @@ function Login(props) {
       email: email,
       password: password
     };
-
+    document.getElementsByClassName("wEmail")[0].style.display = "block";
     try {
       props.logIn(body);
     } catch (err) {
@@ -52,6 +52,16 @@ function Login(props) {
         <img src="../logo_travelblog.png" width="70"></img>
 
         <Form inline className="ml-auto" onSubmit={loginSubmit}>
+          <div
+            id="wEmail"
+            className="wEmail alert-danger mr-5"
+            role="alert"
+            style={{ display: "none", padding: "5px", borderRadius: "10px" }}
+          >
+            <span class=" glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Wrong password!
+          </div>
           <FormControl
             autoFocus
             placeholder="Email"

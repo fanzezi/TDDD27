@@ -24,15 +24,21 @@ import Signup from "./components/Signup";
 
 function App(props) {
   const { isLoggedIn, loginUser } = props.isLogged;
-  const username = loginUser.firstname;
-  const surname = loginUser.familyname;
-  const email = loginUser.email;
+  let username = "";
+  let surname = "";
+  let email = "";
   let totalCountries = "";
 
-  if (loginUser.map != null) {
-    totalCountries = loginUser.map.length;
-  } else {
-    totalCountries = "None";
+  if (isLoggedIn) {
+    username = loginUser.firstname;
+    surname = loginUser.familyname;
+    email = loginUser.email;
+
+    if (loginUser.map != null) {
+      totalCountries = loginUser.map.length;
+    } else {
+      totalCountries = "None";
+    }
   }
 
   return (
@@ -87,9 +93,8 @@ const startPage = () => (
         <Col>
           <img src="../world_map.png" width="500"></img>
           <p>
-            Welcome to <b>TravelBlog</b> the place where you can tell your
-            friends and family all about your travel journeys and make them
-            jealous! <br />
+            Welcome to <b>TravelBlog</b> the place where you can store all your
+            memories from your travel journeys! <br />
             <br />
             Don't have an account? <b>Sign up to the right!</b>
           </p>
@@ -142,7 +147,7 @@ const mapStateToProps = state => ({
 
 const Home = ({ username }) => (
   <Fragment>
-    <h1 className="text-center mt-5 font-weight-light">
+    <h1 className="text-center mt-5 font-weight-light text-capitalize">
       {username}s Travelblog
     </h1>
     <div className="container">
@@ -172,12 +177,12 @@ const About = ({ username, surname, email, totalCountries }) => (
     }}
   >
     <div className="infoBox bg-light w-50 mx-auto ">
-      <h1 className="text-center">
+      <h1 className="text-center text-capitalize">
         {username} {surname}
       </h1>
       <p className="text-center">Here you can find your user information</p>
 
-      <table className=" w-70 mt-5 mb-5 mx-auto">
+      <table className=" w-70 mt-5 mb-5 mx-auto ">
         <tbody>
           <tr>
             <th>Name: </th>

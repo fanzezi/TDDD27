@@ -2,10 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import EditBlogPost from "./EditBlogPost";
-import clickedCountry from './MapController';
+import clickedCountry from "./MapController";
 
 const ListBlogPosts = props => {
   const [blogposts, setBlogposts] = useState([]);
+  console.log("Blogpost:");
+  console.log(blogposts);
 
   // Get id from reducer to get users own post
   const { loginUser } = props.auth;
@@ -44,11 +46,7 @@ const ListBlogPosts = props => {
                     <h3>{blogpost.title}</h3>
                   </Col>
                 </Row>
-                <Row>
-                  <Col>
-                    {blogpost.country}
-                  </Col>
-                </Row>
+
                 <Row className="mt-2 mb-2">
                   <Col>{blogpost.description}</Col>
                 </Row>
@@ -57,6 +55,19 @@ const ListBlogPosts = props => {
                   <Col>
                     <img src={blogpost.image_url} width="95%" alt="" />
                   </Col>
+                </Row>
+                <Row>
+                  <p
+                    className=" bg-light text-secondary mx-auto mt-3"
+                    style={{
+                      width: "auto",
+                      padding: "5px",
+
+                      borderRadius: "40px"
+                    }}
+                  >
+                    {blogpost.country ? blogpost.country : " "}
+                  </p>
                 </Row>
               </Col>
 

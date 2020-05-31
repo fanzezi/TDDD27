@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 //import ImageUploader from "react-images-upload";
 //import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import { storage } from "./firebase";
-import {countries} from 'country-data';
-
+import { countries } from "country-data";
 
 const InputBlogPost = props => {
   const [image, setImage] = useState(null);
@@ -72,7 +71,7 @@ const InputBlogPost = props => {
     try {
       // Post blogpost
 
-      const body = { title, description, id, image_url, country};
+      const body = { title, description, id, image_url, country };
       console.log(body);
       //const response =
       await fetch("http://localhost:5000/blogposts", {
@@ -87,61 +86,73 @@ const InputBlogPost = props => {
   };
 
   return (
-    <div className="wrapper mx-auto">
-      <h1 className="text-center mt-5">Write a new blogpost</h1>
-
-      <div
-        style={{
-          display: "flex",
-
-          alignItems: "center",
-          flexDirection: "column"
-        }}
+    <div>
+      <a
+        href="/"
+        className="badge-light "
+        style={{ padding: "10px", margin: "10%", borderRadius: "3px" }}
       >
-        <input type="file" onChange={handleImageAsFile}></input>
+        Go Back
+      </a>
+      <div className="wrapper mx-auto">
+        <h1 className="text-center mt-5">Write a new blogpost</h1>
 
-        <button className="btn btn-info" onClick={handleFireBaseUpload}>
-          upload image
-        </button>
-        <div id="uploadText" className="mt-3 text-center">
-          <b>
-            Upload a image! <br />
-            By first choose a file and then press <i>upload image</i>
-          </b>
-        </div>
-        <form className="text-center mt-3 p-3" onSubmit={onSubmitForm}>
-          <textarea
-            style={{ width: "600px", height: "40px" }}
-            type="text"
-            className="form-control"
-            placeholder="Title"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-          <select
-            value={country}
-            onChange={e => setCountry(e.target.value)}
-            >
-          {userCountries.map(country => (
-          <option>
-            {country ?  countries[country].name : "Choose which country the post is related to"}
-          </option>
-          ))} 
-          </select>
-          <br />
-          <textarea
-            style={{ width: "600px", height: "400px" }}
-            type="text"
-            className="form-control"
-            value={description}
-            placeholder="Write what you have on your mind..."
-            onChange={e => setDescription(e.target.value)}
-          />
+        <div
+          style={{
+            display: "flex",
 
-          <button className="btn btn-secondary btn-lg btn-block mt-5">
-            Submit post
+            alignItems: "center",
+            flexDirection: "column"
+          }}
+        >
+          <input type="file" onChange={handleImageAsFile}></input>
+
+          <button className="btn btn-info" onClick={handleFireBaseUpload}>
+            upload image
           </button>
-        </form>
+          <div id="uploadText" className="mt-3 text-center">
+            <b>
+              Upload a image! <br />
+              By first choose a file and then press <i>upload image</i>
+            </b>
+          </div>
+          <form className="text-center mt-3 p-3" onSubmit={onSubmitForm}>
+            <textarea
+              style={{ width: "600px", height: "40px" }}
+              type="text"
+              className="form-control"
+              placeholder="Title"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
+
+            <br />
+            <textarea
+              style={{ width: "600px", height: "400px" }}
+              type="text"
+              className="form-control"
+              value={description}
+              placeholder="Write what you have on your mind..."
+              onChange={e => setDescription(e.target.value)}
+            />
+            <p>Choose which country the post is related to</p>
+            <select
+              value={country}
+              onChange={e => setCountry(e.target.value)}
+              className=" bg-info text-white border-light"
+              style={{ width: "300px", height: "40px", borderRadius: "5px" }}
+            >
+              {userCountries.map(country => (
+                <option>
+                  {country ? countries[country].name : "No country selected"}
+                </option>
+              ))}
+            </select>
+            <button className="btn btn-secondary btn-lg btn-block mt-5">
+              Submit post
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ const logIn = body => async dispatch => {
       body: JSON.stringify(body)
     });
     const data = await response.json();
-
     dispatch({
       type: "SIGN_IN",
       payload: data
