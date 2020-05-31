@@ -87,6 +87,13 @@ const InputBlogPost = props => {
 
   return (
     <div className="wrapper mx-auto">
+      <a
+        href="/"
+        className="badge-light "
+        style={{ padding: "10px", margin: "10%", borderRadius: "3px" }}
+      >
+        Go Back
+      </a>
       <h1 className="text-center mt-5">Write a new blogpost</h1>
 
       <div
