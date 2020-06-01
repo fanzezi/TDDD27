@@ -11,7 +11,6 @@ import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
 const middleware = [thunk];
-//const initialState = {};
 
 const persistConfig = {
   key: "root",
@@ -22,12 +21,10 @@ const persistedReducer = persistReducer(persistConfig, allReducers);
 
 const myStore = createStore(
   persistedReducer,
-  // This is for the dev tool
-  //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-
   compose(applyMiddleware(...middleware)) // ... because of [thunk]
 );
 
+// keep us loggedin
 let persistor = persistStore(myStore);
 
 ReactDOM.render(

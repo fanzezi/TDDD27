@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-//import ImageUploader from "react-images-upload";
-//import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import { storage } from "./firebase";
 import { countries } from "country-data";
 
@@ -19,16 +17,19 @@ const InputBlogPost = props => {
 
   let userCountries = [""];
 
+  // To get the countries if user has stored them
   if (userData[0] !== undefined) {
     userCountries = userData[0].map;
   }
 
+  // Set image state
   const handleImageAsFile = e => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
 
+  // to get the country info
   const getUserData = async () => {
     try {
       const response = await fetch(`http://localhost:5000/user/${id}`);
@@ -43,6 +44,7 @@ const InputBlogPost = props => {
     getUserData();
   }, []);
 
+  // Push up to the database, get image URL from storage
   const handleFireBaseUpload = e => {
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
     document.getElementById("uploadText").innerHTML =
@@ -70,10 +72,8 @@ const InputBlogPost = props => {
 
     try {
       // Post blogpost
-
       const body = { title, description, id, image_url, country };
 
-      //const response =
       await fetch("http://localhost:5000/blogposts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

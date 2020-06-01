@@ -4,34 +4,9 @@ const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
 
-// JSON WEB TOKEN HER
-
 //ROUTES//
 app.use(cors());
 app.use(express.json());
-
-// JSON WEB TOKEN
-app.get("/api", (res, req) => {
-  res.json({
-    message: "Welcome to the aPI"
-  });
-});
-
-// VerifyToken
-// verify to access protected pages with token
-function verifyToken(req, res, next) {
-  const token = req.header("auth-token");
-  //Check if bearer is undefined
-  if (!token) return res.status(401).send("Access Denied");
-
-  try {
-    const verified = jwt.verify(token, "secretKey");
-    req.user = verified;
-    next();
-  } catch (err) {
-    res.status(400).send("Invalid token");
-  }
-}
 
 // Sign up user
 app.post("/signup", async (req, res) => {
@@ -65,13 +40,13 @@ app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validation
-
+    // Check if user exist
     const getUser = await pool.query(
       "SELECT * FROM userdata WHERE email LIKE $1",
       [email]
     );
 
+    // Check password
     const loginUser = getUser.rows[0];
     const checkpassword = await pool.query(
       "SELECT password FROM userdata WHERE email LIKE $1",
@@ -80,8 +55,7 @@ app.post("/login", async (req, res) => {
     if (loginUser)
       if (checkpassword.rows[0].password == password) {
         console.log("Log in success");
-
-        //create and assign token
+        //Create and assign token
         const token = jwt.sign({ loginUser }, "secretKey");
         // return user token and user data
         res.json({ token, loginUser });
@@ -93,10 +67,10 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//create a blogpost
+//Create a blogpost
 app.post("/blogposts", async (req, res) => {
   try {
-    const { title, description, id, image_url, country} = req.body;
+    const { title, description, id, image_url, country } = req.body;
 
     const newBlogPost = await pool.query(
       "INSERT INTO blog (title, description, user_id, image_url, country) VALUES( $1, $2, $3, $4, $5) RETURNING *",
@@ -109,7 +83,7 @@ app.post("/blogposts", async (req, res) => {
   }
 });
 
-//get user blogposts
+//get all user blogposts
 app.get("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -123,7 +97,7 @@ app.get("/blogposts/:id", async (req, res) => {
   }
 });
 
-//get userdata
+//Get userdata
 app.get("/user/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -136,14 +110,11 @@ app.get("/user/:id", async (req, res) => {
   }
 });
 
-//edit map
+//Update map
 app.put("/map", async (req, res) => {
   try {
     const { map, id } = req.body;
-    const updateMap = await pool.query(
-      "UPDATE userdata SET map = $1 WHERE id = $2",
-      [map, id]
-    );
+    await pool.query("UPDATE userdata SET map = $1 WHERE id = $2", [map, id]);
 
     res.json("Map was updated");
   } catch (err) {
@@ -156,7 +127,7 @@ app.put("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, blog_post_id } = req.body;
-    const updateBlogPost = await pool.query(
+    await pool.query(
       "UPDATE blog SET title = $1, description = $2 WHERE post_id = $3",
       [title, description, blog_post_id]
     );
@@ -171,10 +142,7 @@ app.put("/blogposts/:id", async (req, res) => {
 app.delete("/blogposts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteBlogPost = await pool.query(
-      "DELETE FROM blog WHERE post_id = $1",
-      [id]
-    );
+    await pool.query("DELETE FROM blog WHERE post_id = $1", [id]);
     res.json("Blogpost was deleted");
   } catch (err) {
     console.error(err.message);

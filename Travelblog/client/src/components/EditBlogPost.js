@@ -12,25 +12,24 @@ const EditBlogPost = props => {
   const { loginUser } = props.auth;
   const id = loginUser.id;
 
+  //delete blogpost
   const deleteBlogPost = async id => {
     try {
-      //const deleteBlogPost =
       await fetch(`http://localhost:5000/blogposts/${id}`, {
         method: "DELETE"
       });
       setBlogposts(blogposts.filter(blogpost => blogpost.post_id !== id));
-      //this.forceUpdate();
       window.location = "/";
     } catch (err) {
       console.error(err.message);
     }
   };
 
+  //update blogpost
   const updateBlogpost = async e => {
     e.preventDefault();
     try {
       const body = { title, description, blog_post_id };
-      //const response =
       await fetch(`http://localhost:5000/blogposts/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

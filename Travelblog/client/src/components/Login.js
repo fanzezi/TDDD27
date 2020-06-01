@@ -9,7 +9,7 @@ function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Password length > 2
+  // Password length > 2 to login button clickable
   function validateForm() {
     return email.length > 2 && password.length > 2;
   }
@@ -19,14 +19,14 @@ function Login(props) {
     // if the event does not get explicitly handled, its default action should not be taken as it normally would be.
     e.preventDefault();
     // Validate if email and password is working
-
     const body = {
       email: email,
       password: password
     };
-    document.getElementsByClassName("wEmail")[0].style.display = "block";
+
     try {
       props.logIn(body);
+      document.getElementsByClassName("wEmail")[0].style.display = "block";
     } catch (err) {
       console.error(err.message);
     }

@@ -6,8 +6,6 @@ import clickedCountry from "./MapController";
 
 const ListBlogPosts = props => {
   const [blogposts, setBlogposts] = useState([]);
-  console.log("Blogpost:");
-  console.log(blogposts);
 
   // Get id from reducer to get users own post
   const { loginUser } = props.auth;
@@ -23,8 +21,6 @@ const ListBlogPosts = props => {
       console.error(err.message);
     }
   };
-
-  console.log(clickedCountry);
 
   useEffect(() => {
     getBlogPosts();

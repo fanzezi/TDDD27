@@ -1,13 +1,15 @@
 CREATE DATABASE pernblog;
 
-/*Change the length of the blog post?*/
-/*CREATE TABLE blogpost(
-    blogpost_id SERIAL PRIMARY KEY, 
-    description VARCHAR(255),
-    imgname text,
-    img bytea 
-);*/
- 
+CREATE TABLE userdata(
+    id SERIAL,
+    email VARCHAR(50),
+    map text[],
+    password VARCHAR(30),
+    firstname VARCHAR(50),
+    familyname VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
 DROP TABLE IF EXISTS blog;
 CREATE TABLE blog(
     post_id SERIAL,
@@ -19,27 +21,6 @@ CREATE TABLE blog(
     PRIMARY KEY(post_id),
     FOREIGN KEY (user_id) REFERENCES userdata (id) ON DELETE CASCADE     
 );
-
-CREATE TABLE userdata(
-    id SERIAL,
-    email VARCHAR(50),
-    map text[],
-    password VARCHAR(30),
-    firstname VARCHAR(50),
-    familyname VARCHAR(50),
-    PRIMARY KEY(id)
-);
-
-/*FOREIGN KEY (id) REFERENCES userdata(id) ON DELETE CASCADE */
-/*CREATE TABLE users(
-    email VARCHAR(50),
-    password VARCHAR(30),
-    firstname VARCHAR(50),
-    familyname VARCHAR(50),
-    PRIMARY KEY(email)
-);*/
-
-
 
 CREATE TABLE loggedInUsers(
   email VARCHAR(50),

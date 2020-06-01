@@ -17,7 +17,6 @@ import "./App.css";
 import InputBlogPost from "./components/InputBlogPost";
 import ListBlogposts from "./components/ListBlogposts";
 import MapController from "./components/MapController";
-//import Inside from "./components/Inside";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Signup from "./components/Signup";
@@ -73,8 +72,6 @@ function App(props) {
     </div>
   );
 }
-
-/* <PrivateRoute path = '/home' isLoggedIn={isLoggedIn} children = {Home}></PrivateRoute> */
 
 const startPage = () => (
   <Fragment>

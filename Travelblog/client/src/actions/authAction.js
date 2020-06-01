@@ -12,7 +12,6 @@ const logIn = body => async dispatch => {
     });
   } catch (err) {
     console.log(err);
-    // TODO: something
   }
 };
 

@@ -8,12 +8,12 @@ const initialState = {
 const loggedReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SIGN_IN":
-      console.log(action.payload.loginUser);
       localStorage.setItem("token", action.payload.token);
       return {
-        ...state, //För att bevara vissa delar i state men ändra andra delar (ex isLogged: true)
+        // To store some parts in state but change others (e.g isLogged: true)
+        ...state,
         loginUser: action.payload.loginUser,
-        isLoggedIn: true //Keep the state but modify the selected state (LoggedIn)
+        isLoggedIn: true
       };
     case "SIGN_OUT":
       localStorage.removeItem("token");
